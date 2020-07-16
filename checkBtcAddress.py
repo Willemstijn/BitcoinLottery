@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # To start the script in the background use: nohup ./checkBtcAddress.py &
 # To see the process again use: ps ax | grep test.py
 

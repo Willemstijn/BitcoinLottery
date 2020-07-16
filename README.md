@@ -1,25 +1,14 @@
 # BitcoinLottery
 
 Python script to generate random BTC adresses. If you find an address with wallet balance, you win!
+Script is based on Linux systems with Python3 installed.
 
 ## Requirements
 
-This script is build on Python3.
-
-### Linux
-
-The following packages have to be installed to make the lottery work:
-
+The following Python modules have to be installed:
 * sudo apt install python-pip3
-* pip3 install bitcoin
-* pip3 install requests
-
-### Windows
-
-The following software has to be installed on Windows 10 for this script to work
-
-* Download and install the latest stable [Python3 for Windows](https://www.python.org/downloads/windows/)(Current stable version is 3.8.0).
-* py -m pip install bitcoin
+* sudo pip3 install bitcoin [*](https://pypi.org/project/bitcoin/)
+* sudo pip3 install requests
 
 ## Downloading the BitcoinLottery Python script
 
