@@ -4,13 +4,15 @@ Python script to generate random BTC adresses. If you find an address with walle
 
 ## Requirements
 
+This script is build on Python3.
+
 ### Linux
 
 The following packages have to be installed to make the lottery work:
 
-* sudo apt install python-pip
-* pip install bitcoin
-* pip install requests
+* sudo apt install python-pip3
+* pip3 install bitcoin
+* pip3 install requests
 
 ### Windows
 
@@ -53,6 +55,9 @@ Follow the procedure below to create a channel for signalling found Satoshi's:
 * Use this "id" and your "token" in the BitcoinLottery script.
 
 ## Running the script
+
+### Daemonize
+This script will be daemonized.
 
 ### Linux
 
