@@ -53,25 +53,23 @@ This script will be daemonized.
 You can run the script in your terminal with this command:
 
 ```bash
-./run_lottery.py
-```
-
-### Windows
-
-Just run the line below in a command prompt in the directory of the script:
-
-```bash
-py ./run_lottery.py
+chmod u+x btc_lottery.py
+./btc_lottery.py
 ```
 
 ## Running in the background
 
-### Linux
-
 To let the script run in the background, use the following command:
 
 ```bash
-nohup ./run_lottery.py &
+nohup ./btc_lottery.py &
+```
+
+With & , you'll see the bash job ID in brackets, and the process ID (PID) listed after.
+You can use the PID to terminate the process prematurely. For instance, to send it the TERM (terminate) signal with the kill command:
+
+```
+kill -9 25132
 ```
 
 OPTIONAL: Another method is running it in a virtual terminal:
@@ -84,15 +82,11 @@ screen -dmS btcl
 screen -r btcl
 
 # Run the script
-./run_lottery.py
+./btc_lottery.py
 ```
 
 Close your terminal screen. The BitcoinLottery PID belongs to the virtual terminal and keeps running.  
 To check the script, run ''screen -r btcl'' again
-
-### Windows
-
-Have not found a way yet and no rush to find one because I use Linux. Guess you'll have to leave a terminal session open during the lottery.
 
 ## Addendum
 
@@ -102,7 +96,19 @@ These url's come from: https://bitcointalk.org/index.php?topic=1605809.0
 **Confirmed**:
 
 https://blockchain.info/q/addressbalance/<address>
+Bitcoin Developer APIs
+
+Use Blockchain's APIs at no cost to help you start building bitcoin apps.
+https://www.blockchain.com/api
+Request Limits: To bypass the request limiter, please request an API key.REQUEST API KEY
+
 https://www.bitgo.com/api/v1/address/<address>
+
+https://www.blockchain.com/api/blockchain_api
+
+https://blockchain.info/rawaddr/16x5PDfi7ZmvKbHbLJdj2M8tFF8yZ4rLuH
+
+https://blockchain.info/balance?active=$16x5PDfi7ZmvKbHbLJdj2M8tFF8yZ4rLuH
 
 
 Unconfirmed:****
