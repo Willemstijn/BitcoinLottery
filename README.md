@@ -95,6 +95,9 @@ These url's come from: https://bitcointalk.org/index.php?topic=1605809.0
 
 **Confirmed**:
 
+https://api.blockcypher.com/v1/btc/main
+https://api.blockcypher.com/v1/btc/main/addrs/1DEP8i3QJCsomS4BSMY2RpU1upv62aGvhD/balance
+
 https://blockchain.info/q/addressbalance/<address>
 Bitcoin Developer APIs
 

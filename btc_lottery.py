@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Do not start this file. Start "run_lottery.py"!
 import requests
 from bitcoin import *
 import time
@@ -16,15 +17,24 @@ def create_addr():
 
     return priv, pub, addr, electrumPKey
 
-def check_balance(addr):
+def check_balance_blockchain_com(addr):
     """
     This function checks the balance of the address and
     returns the result for further processing.
     """
-    url = "https://blockchain.info/q/addressbalance/"
-    api_check = url+str(addr)
-    balance = requests.get(api_check).json()
-    
+    url = "https://blockchain.info/q/addressbalance/"+str(addr)
+    balance = requests.get(url).json()
+    ## Placeholder variables
+    # balance = 0
+    return balance
+
+def check_balance_blockcypher_com(addr):
+    """
+    This function checks the balance of the address and
+    returns the result for further processing.
+    """
+    url = "https://api.blockcypher.com/v1/btc/main/addrs/"+str(addr)+"/balance"
+    balance = requests.get(url).json()
     ## Placeholder variables
     # balance = 0
     return balance
@@ -71,7 +81,7 @@ def main():
     priv, pub, addr, electrumPKey = create_addr()
     
     # Check the balance of the Bitcoin address
-    balance = check_balance(addr)
+    balance = check_balance_blockchain_com(addr)
 
     # Write to log if amount > 0
     log_addr(balance, priv, pub, addr, electrumPKey)
@@ -92,4 +102,6 @@ def main():
 if __name__ == '__main__':
     while True:
         main()
-        time.sleep(5)
+        # Set timer to 15 seconds due to rate-limit on blockchain.com
+        # Set timer to 20 seconds due to rate-limit on https://www.blockcypher.com/dev/bitcoin/#rate-limits-and-tokens
+        time.sleep(15)
