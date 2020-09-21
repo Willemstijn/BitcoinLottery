@@ -3,6 +3,11 @@
 import requests
 from bitcoin import *
 import time
+import config
+
+# Set timer to 15 seconds due to rate-limit on blockchain.com
+# Set timer to 20 seconds due to rate-limit on https://www.blockcypher.com/dev/bitcoin/#rate-limits-and-tokens
+timer=20
 
 def create_addr():
     """ 
@@ -46,10 +51,9 @@ def telegram(balance, priv, pub, addr, electrumPKey):
     """
     if balance > 0:
         def telegram_bot(bot_message):
-            
-            # Enter your bot token and bot chat ID here for warnings with Telegram
-            bot_token = ''
-            bot_chatID = ''
+             # Enter your bot token and bot chat ID here for warnings with Telegram
+            bot_token = config.token
+            bot_chatID = config.chatID
             send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
 
             response = requests.get(send_text)
@@ -69,17 +73,16 @@ def log_addr(balance, priv, pub, addr, electrumPKey):
         text_file.write("\n" + str(balance) + "," + str(addr) + "," + str(electrumPKey) + "," + str(priv) + "," + str(pub))
         text_file.close()
 
-def main():
-    """
-    Main function for running the script.
-    Does the following:
-    - Creates a bitcoin address, private keys etc. (create_addr)
-    - Checks if the keys contain balance (check_balance)
-    - Warns if it does and writes the information to a file
-    """
+def countdown(timer):
+    while timer >= 0:
+        print(timer, end=' ')
+        time.sleep(1)
+        timer -= 1
     # create bitcoin address
     priv, pub, addr, electrumPKey = create_addr()
-    
+
+    # try: # Try exception block chatches errors when checking balance on address
+
     # Check the balance of the Bitcoin address
     balance = check_balance_blockchain_com(addr)
 
@@ -90,18 +93,12 @@ def main():
     telegram(balance, priv, pub, addr, electrumPKey)
 
     # Print output to console for visual check of script running.
-    print(str(balance) + " satoshi has been found on BTC address: " + str(addr) + ". Keep trying!!")
-    # print('=============================================================================')
-    # print("BTC Address: " + str(addr))
-    # print("Pub Address: " + str(pub))
-    # print("Private Key: " + str(priv))
-    # print("Electrum Import Key: " + str(electrumPKey))
-    # print("Amount on address: " + str(balance))
-    # print('=============================================================================')
+    print("\n" + str(balance) + " satoshi ound on BTC address: " + str(addr))
+
+def main():
+    countdown(timer)
 
 if __name__ == '__main__':
     while True:
         main()
-        # Set timer to 15 seconds due to rate-limit on blockchain.com
-        # Set timer to 20 seconds due to rate-limit on https://www.blockcypher.com/dev/bitcoin/#rate-limits-and-tokens
-        time.sleep(15)
+        # time.sleep(15)

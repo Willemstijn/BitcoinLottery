@@ -1,6 +1,6 @@
 #!/usr/bin/python
 from subprocess import Popen
-import sys
+#import sys
 import logging
 from datetime import datetime
 
@@ -8,12 +8,12 @@ from datetime import datetime
 # filename = sys.argv[1]
 filename = 'btc_lottery.py'
 
-logging.basicConfig(filename='report.log',level=logging.DEBUG)
+logging.basicConfig(filename='report.log' ,level=logging.DEBUG)
 
 while True:
     print("\nStarting " + filename)
     p = Popen("python " + filename, shell=True)
     sttime = datetime.now().strftime('%Y%m%d_%H:%M:%S ')
     message = 'Started Bitcoin Lottery: '
-    # logging.info(message + sttime)
+    logging.info(message + sttime)
     p.wait()
