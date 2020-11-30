@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Do not start this file. Start "run_lottery.py"!
 import requests
+from cryptos import *
 from bitcoin import *
 import time
 import config
@@ -8,9 +9,12 @@ from bs4 import BeautifulSoup
 
 # Set timer to 15 seconds due to rate-limit on blockchain.com
 # Set timer to 20 seconds due to rate-limit on https://www.blockcypher.com/dev/bitcoin/#rate-limits-and-tokens
-timer = 2
+timer = 1
 # Address for testing purposes
 #addr = '3LtmPDgAQhpMkuDKpEXbWmMkvq6WKWLatj'
+
+# Use crypto modules for determining amount
+b = Bitcoin()
 
 def create_addr():
     """ 
@@ -24,6 +28,24 @@ def create_addr():
     electrumPKey = encode_privkey(priv, 'wif')
 
     return priv, pub, addr, electrumPKey
+
+def check_balance_crypto_mod(addr):
+    """
+    This function checks the balance of the address
+    through the crypto module and
+    returns the result for further processing.
+    """
+    print(f"Public address: {addr}")
+
+    inputs = b.unspent(addr)
+    tx = b.mktx(inputs)
+    # print(json.dumps(tx, indent=4))
+    # Balance (amount) is nested in a json list and dictionary
+    # print(tx)
+    balance = tx['ins'][0]['amount']
+    # print(balance)
+
+    return balance
 
 def check_balance_blockchain_com(addr):
     """
@@ -101,21 +123,24 @@ def countdown(timer):
     # create bitcoin address
     priv, pub, addr, electrumPKey = create_addr()
 
-    # try: # Try exception block chatches errors when checking balance on address
-    # Future functionality is adding multiple functions to check address balance
-    # if one fails, try the next.
+    try: 
+            # Check the balance of the Bitcoin address
+            balance = check_balance_crypto_mod(addr)
 
-    # Check the balance of the Bitcoin address
-    balance = check_balance_blockchain_com_beautifulsoup(addr)
+            # Write to log if amount > 0
+            log_addr(balance, priv, pub, addr, electrumPKey)
 
-    # Write to log if amount > 0
-    log_addr(balance, priv, pub, addr, electrumPKey)
+            # Send notification through Telegram if amount > 0
+            telegram(balance, priv, pub, addr, electrumPKey)
 
-    # Send notification through Telegram if amount > 0
-    telegram(balance, priv, pub, addr, electrumPKey)
+            # Print output to console for visual check of script running.
+            print("\n" + str(balance) + " satoshi found on BTC address: " + str(addr))
 
-    # Print output to console for visual check of script running.
-    print("\n" + str(balance) + " satoshi found on BTC address: " + str(addr))
+    except(IndexError) as e:
+        print("No amount on address.")
+    # balance = check_balance_blockchain_com_beautifulsoup(addr)
+    # IndexError: list index out of range
+
 
 def main():
     countdown(timer)

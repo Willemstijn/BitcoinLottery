@@ -1,5 +1,6 @@
 # install requirements with: pip3 install -r requirements.txt
 requests
 bitcoin
+cryptos
 beautifulsoup4
 lxml
