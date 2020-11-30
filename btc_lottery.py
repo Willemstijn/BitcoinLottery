@@ -4,10 +4,13 @@ import requests
 from bitcoin import *
 import time
 import config
+from bs4 import BeautifulSoup
 
 # Set timer to 15 seconds due to rate-limit on blockchain.com
 # Set timer to 20 seconds due to rate-limit on https://www.blockcypher.com/dev/bitcoin/#rate-limits-and-tokens
-timer=20
+timer = 2
+# Address for testing purposes
+#addr = '3LtmPDgAQhpMkuDKpEXbWmMkvq6WKWLatj'
 
 def create_addr():
     """ 
@@ -29,8 +32,26 @@ def check_balance_blockchain_com(addr):
     """
     url = "https://blockchain.info/q/addressbalance/"+str(addr)
     balance = requests.get(url).json()
-    ## Placeholder variables
-    # balance = 0
+
+    return balance
+
+def check_balance_blockchain_com_beautifulsoup(addr):
+    """
+    This function checks the balance of the address with beautifulsoup 
+    and returns the result for further processing.
+    """
+    url = "https://www.blockchain.com/btc/address/"
+    
+    result = requests.get(f"{url}{addr}")
+    src = result.content
+    soup = BeautifulSoup(src, "lxml")
+    
+    # get balance from site and print tag value
+    tags = soup.find_all(class_="sc-1ryi78w-0 gCzMgE sc-16b9dsl-1 kUAhZx u3ufsr-0 fGQJzg")
+    balance_list = tags[4].string.split()
+    balance_str = balance_list[0]
+    balance = float(balance_str)
+    
     return balance
 
 def check_balance_blockcypher_com(addr):
@@ -40,8 +61,7 @@ def check_balance_blockcypher_com(addr):
     """
     url = "https://api.blockcypher.com/v1/btc/main/addrs/"+str(addr)+"/balance"
     balance = requests.get(url).json()
-    ## Placeholder variables
-    # balance = 0
+
     return balance
 
 def telegram(balance, priv, pub, addr, electrumPKey):
@@ -82,9 +102,11 @@ def countdown(timer):
     priv, pub, addr, electrumPKey = create_addr()
 
     # try: # Try exception block chatches errors when checking balance on address
+    # Future functionality is adding multiple functions to check address balance
+    # if one fails, try the next.
 
     # Check the balance of the Bitcoin address
-    balance = check_balance_blockchain_com(addr)
+    balance = check_balance_blockchain_com_beautifulsoup(addr)
 
     # Write to log if amount > 0
     log_addr(balance, priv, pub, addr, electrumPKey)
@@ -93,7 +115,7 @@ def countdown(timer):
     telegram(balance, priv, pub, addr, electrumPKey)
 
     # Print output to console for visual check of script running.
-    print("\n" + str(balance) + " satoshi ound on BTC address: " + str(addr))
+    print("\n" + str(balance) + " satoshi found on BTC address: " + str(addr))
 
 def main():
     countdown(timer)
