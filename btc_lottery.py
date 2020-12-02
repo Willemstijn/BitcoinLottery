@@ -10,8 +10,6 @@ from bs4 import BeautifulSoup
 # Set timer to 15 seconds due to rate-limit on blockchain.com
 # Set timer to 20 seconds due to rate-limit on https://www.blockcypher.com/dev/bitcoin/#rate-limits-and-tokens
 timer = 1
-# Address for testing purposes
-#addr = '3LtmPDgAQhpMkuDKpEXbWmMkvq6WKWLatj'
 
 # Use crypto modules for determining amount
 b = Bitcoin()
@@ -25,6 +23,8 @@ def create_addr():
     priv = random_key()
     pub = privtopub(priv)
     addr = pubtoaddr(pub)
+    # Address for testing purposes
+    # addr = '3LtmPDgAQhpMkuDKpEXbWmMkvq6WKWLatj'
     electrumPKey = encode_privkey(priv, 'wif')
 
     return priv, pub, addr, electrumPKey

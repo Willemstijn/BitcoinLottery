@@ -1,0 +1,19 @@
+0 satoshi ound on BTC address: 1CY9QHbQ8W5jTqmgdxYuQ4Dp8wi1Ycc8fJ
+20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 Traceback (most recent call last):
+  File "btc_lottery.py", line 103, in <module>
+    main()
+  File "btc_lottery.py", line 99, in main
+    countdown(timer)
+  File "btc_lottery.py", line 87, in countdown
+    balance = check_balance_blockchain_com(addr)
+  File "btc_lottery.py", line 31, in check_balance_blockchain_com
+    balance = requests.get(url).json()
+  File "/usr/local/lib/python3.7/dist-packages/requests/models.py", line 898, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.7/json/__init__.py", line 348, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.7/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.7/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
