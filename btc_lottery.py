@@ -24,7 +24,7 @@ def create_addr():
     pub = privtopub(priv)
     addr = pubtoaddr(pub)
     # Address for testing purposes
-    # addr = '3LtmPDgAQhpMkuDKpEXbWmMkvq6WKWLatj'
+    #addr = '3LtmPDgAQhpMkuDKpEXbWmMkvq6WKWLatj'
     electrumPKey = encode_privkey(priv, 'wif')
 
     return priv, pub, addr, electrumPKey
